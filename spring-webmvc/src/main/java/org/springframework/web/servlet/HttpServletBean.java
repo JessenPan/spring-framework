@@ -83,9 +83,15 @@ public abstract class HttpServletBean extends HttpServlet
     /**
      * Set of required properties (Strings) that must be supplied as
      * config parameters to this servlet.
+     * <p>
+     *     必须提供给此servlet的配置参数，这些配置参数的格式是String格式的
+     * </p>
      */
     private final Set<String> requiredProperties = new HashSet<String>();
 
+    /**
+     * 环境对象
+     */
     private ConfigurableEnvironment environment;
 
 
