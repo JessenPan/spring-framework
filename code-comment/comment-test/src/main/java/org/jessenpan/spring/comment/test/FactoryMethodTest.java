@@ -1,9 +1,9 @@
-package org.springframework.comment;
+package org.jessenpan.spring.comment.test;
 
 import org.junit.Test;
 import org.springframework.beans.factory.BeanFactory;
 import org.springframework.beans.factory.xml.XmlBeanFactory;
-import org.springframework.comment.jessenpan.TestObj;
+import org.jessenpan.spring.comment.test.jessenpan.TestObj;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
 

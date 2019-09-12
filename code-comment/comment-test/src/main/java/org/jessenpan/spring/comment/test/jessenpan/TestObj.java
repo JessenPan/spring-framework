@@ -1,4 +1,4 @@
-package org.springframework.comment.jessenpan;
+package org.jessenpan.spring.comment.test.jessenpan;
 
 /**
  * @author jessenpan

@@ -1,4 +1,4 @@
-package org.springframework.comment;
+package org.jessenpan.spring.comment.test;
 
 import org.junit.Test;
 import org.springframework.beans.factory.BeanFactory;
@@ -8,14 +8,13 @@ import org.springframework.core.io.Resource;
 
 /**
  * @author jessenpan
- * @since 17/7/23
+ * @since  17/5/29
  */
-public class CircularRefTest {
+public class ConstructArgBeanTest {
 
     @Test
-    public void testCircularRef() {
-        Resource springConfig = new ClassPathResource("spring-circular-ref-test.xml");
+    public void testConstructArgBeanDefinition() {
+        Resource springConfig = new ClassPathResource("spring-config-test.xml");
         BeanFactory bf = new XmlBeanFactory(springConfig);
-        bf.getBean("test");
     }
 }

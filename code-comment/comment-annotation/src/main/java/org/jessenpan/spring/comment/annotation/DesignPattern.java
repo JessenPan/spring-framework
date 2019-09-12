@@ -1,4 +1,4 @@
-package org.springframework.comment.annotation;
+package org.jessenpan.spring.comment.annotation;
 
 import lombok.Getter;
 

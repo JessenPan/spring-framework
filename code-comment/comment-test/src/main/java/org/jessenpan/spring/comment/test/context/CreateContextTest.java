@@ -1,4 +1,4 @@
-package org.springframework.comment.context;
+package org.jessenpan.spring.comment.test.context;
 
 import org.junit.Test;
 import org.springframework.context.ApplicationContext;

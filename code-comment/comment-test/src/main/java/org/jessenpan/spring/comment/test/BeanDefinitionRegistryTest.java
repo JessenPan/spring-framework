@@ -1,4 +1,4 @@
-package org.springframework.comment;
+package org.jessenpan.spring.comment.test;
 
 import org.junit.Assert;
 import org.junit.Test;

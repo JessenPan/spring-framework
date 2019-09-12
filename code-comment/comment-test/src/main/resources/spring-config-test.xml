@@ -12,17 +12,17 @@
         <property name="fileEncoding" value="UTF-8"/>
     </bean>
 
-    <bean id="test" class="org.springframework.comment.jessenpan.TestObj">
+    <bean id="test" class="org.jessenpan.spring.comment.test.jessenpan.TestObj">
         <constructor-arg name="object">
             <bean class="java.lang.Object"/>
         </constructor-arg>
         <property name="name" value="${test.key}"/>
     </bean>
 
-    <bean id="testByFactory" class="org.springframework.comment.jessenpan.TestObj"/>
+    <bean id="testByFactory" class="org.jessenpan.spring.comment.test.jessenpan.TestObj"/>
 
 
-    <bean id="test3" class="org.springframework.comment.jessenpan.TestObj2">
+    <bean id="test3" class="org.jessenpan.spring.comment.test.jessenpan.TestObj2">
         <property name="mapVal">
             <map>
                 <entry key="et" value="te"/>
