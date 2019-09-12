@@ -32,7 +32,7 @@
         <module>spring-webmvc</module>
         <module>spring-webmvc-portlet</module>
         <module>spring-webmvc-titles3</module>
-        <module>spring-comment</module>
+        <module>code-comment</module>
     </modules>
 
     <properties>
