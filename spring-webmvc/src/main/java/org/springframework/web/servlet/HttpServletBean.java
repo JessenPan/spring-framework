@@ -63,6 +63,30 @@ import java.util.Set;
  * <p>The {@link FrameworkServlet} class is a more specific servlet base
  * class which loads its own application context. FrameworkServlet serves
  * as direct base class of Spring's full-fledged {@link DispatcherServlet}.
+ * <br/>
+ * 
+ * <p>
+ *     HttpServlet的简单扩展。它把在web.xml里，init-param配置区域的参数当成bean的属性
+ * </p>
+ * <br/>
+ * <p>
+ *     它可以是任一类型servlet的可以快速复用的父类。配置的参数类型转换是自动的，并调用对应的方法进行设置值。
+ *     同时，此类也暴露了接口给任一子类进行设置那些属性是必须的。没有和bean的属性名匹配的web.xml的参数会被自动忽略。
+ * </p>
+ * <br/>
+ * <p>
+ *     对于http请求的处理流程，此类没有进行任何实现。子类需要去实现
+ * </p>
+ * <br/>
+ * <p>
+ *     此通用的servlet基类没有任何spring应用上下文的依赖。
+ *     简单的servlet通常不加载自己的spring上下文，而是通过从servlet的过滤器(Filter)中获取ServletContext，再获取对应的spring上下文来访问对应的bean。
+ * </p>
+ * <br/>
+ * <p>
+ *     FrameworkServlet是一个更加特定的类，加载了它自己的应用上下文。
+ *     FrameworkServlet是更加成熟的DispatcherServlet的直接父类。
+ * </p>
  *
  * @author Rod Johnson
  * @author Juergen Hoeller
