@@ -12,7 +12,7 @@ import java.lang.annotation.Target;
  * @author jessenpan
  * @date 2019/9/12 下午5:10
  */
-@Target({ ElementType.FIELD, ElementType.TYPE })
+@Target({ ElementType.METHOD,ElementType.FIELD, ElementType.TYPE })
 @Retention(RetentionPolicy.RUNTIME)
 public @interface DesignPattern {
 

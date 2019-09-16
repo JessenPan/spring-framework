@@ -148,13 +148,16 @@ public abstract class HttpServletBean extends HttpServlet
     @Override
     public final void init() throws ServletException {
 
-        // Set bean properties from init parameters.
         try {
+            // 基于servletConfig创建一个PropertyValues对象
             PropertyValues pvs = new ServletConfigPropertyValues(getServletConfig(), this.requiredProperties);
+            //通过此ServletBean及其子类创建一个beanWrapper。
             BeanWrapper bw = PropertyAccessorFactory.forBeanPropertyAccess(this);
+            //对于Resource类型的字段设置对象的编辑器
             ResourceLoader resourceLoader = new ServletContextResourceLoader(getServletContext());
             bw.registerCustomEditor(Resource.class, new ResourceEditor(resourceLoader, getEnvironment()));
             initBeanWrapper(bw);
+            //将propertyValues的值通过beanWrapper设置给此servletBean上。
             bw.setPropertyValues(pvs, true);
         } catch (BeansException ex) {
             logger.error("Failed to set bean properties on servlet '" + getServletName() + "'", ex);
@@ -169,11 +172,18 @@ public abstract class HttpServletBean extends HttpServlet
      * Initialize the BeanWrapper for this HttpServletBean,
      * possibly with custom editors.
      * <p>This default implementation is empty.
+     * <p>
+     *    给beanWrapper设置自定义的属性字段编辑器
+     * </p>
+     * <p>
+     *     此方法是模板方法，子类可以覆写
+     * </p>
      *
      * @param bw the BeanWrapper to initialize
      * @throws BeansException if thrown by BeanWrapper methods
      * @see org.springframework.beans.BeanWrapper#registerCustomEditor
      */
+    @DesignPattern({ TEMPLATE })
     protected void initBeanWrapper(BeanWrapper bw) throws BeansException {
     }
 
