@@ -18,6 +18,7 @@ package org.springframework.web.servlet;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.jessenpan.spring.comment.annotation.DesignPattern;
 import org.springframework.beans.*;
 import org.springframework.context.EnvironmentAware;
 import org.springframework.core.env.ConfigurableEnvironment;
@@ -38,6 +39,8 @@ import javax.servlet.http.HttpServlet;
 import java.util.Enumeration;
 import java.util.HashSet;
 import java.util.Set;
+
+import static org.jessenpan.spring.comment.annotation.DesignPattern.DesignPatternEnum.TEMPLATE;
 
 /**
  * Simple extension of {@link javax.servlet.http.HttpServlet} which treats
@@ -96,6 +99,7 @@ import java.util.Set;
  * @see #doPost
  * 
  */
+@DesignPattern({ TEMPLATE})
 @SuppressWarnings("serial")
 public abstract class HttpServletBean extends HttpServlet
         implements EnvironmentCapable, EnvironmentAware {
@@ -234,6 +238,12 @@ public abstract class HttpServletBean extends HttpServlet
     /**
      * Create and return a new {@link StandardServletEnvironment}. Subclasses may override
      * in order to configure the environment or specialize the environment type returned.
+     * <p>
+     *     创建并返回一个新的{@link StandardServletEnvironment}对象。
+     * </p>
+     * <p>
+     *     此方法是一个protected级别的函数，子类可以覆写并返回自定义的实现。
+     * </p>
      */
     protected ConfigurableEnvironment createEnvironment() {
         return new StandardServletEnvironment();
@@ -242,6 +252,12 @@ public abstract class HttpServletBean extends HttpServlet
 
     /**
      * PropertyValues implementation created from ServletConfig init parameters.
+     * <p>
+     *     PropertyValues接口的扩展实现
+     * </p>
+     * <p>
+     *     此实现从ServletConfig的初始化参数构建值
+     * </p>
      */
     private static class ServletConfigPropertyValues extends MutablePropertyValues {
 
@@ -259,6 +275,12 @@ public abstract class HttpServletBean extends HttpServlet
             Set<String> missingProps = (requiredProperties != null && !requiredProperties.isEmpty()) ?
                     new HashSet<String>(requiredProperties) : null;
 
+            /**
+             * 
+             * <p>
+             *     从servletConfig里遍历配置的key并添加到存储里，同时删除requiredProperties里对应项
+             * </p>
+             */
             Enumeration en = config.getInitParameterNames();
             while (en.hasMoreElements()) {
                 String property = (String) en.nextElement();

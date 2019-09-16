@@ -1,6 +1,7 @@
 package org.jessenpan.spring.comment.annotation;
 
 import lombok.Getter;
+import lombok.ToString;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
@@ -11,16 +12,20 @@ import java.lang.annotation.Target;
  * @author jessenpan
  * @date 2019/9/12 下午5:10
  */
-@Target({ ElementType.FIELD, ElementType.TYPE})
+@Target({ ElementType.FIELD, ElementType.TYPE })
 @Retention(RetentionPolicy.RUNTIME)
 public @interface DesignPattern {
 
     DesignPatternEnum[] value();
 
     @Getter
+    @ToString
     enum DesignPatternEnum {
 
-        TEMPLATE(DesignPatternCategory.CREATIONAL, "模板模式");
+        TEMPLATE(DesignPatternCategory.STRUCTAL, "模板模式"),
+        
+        
+        SIMPLE_FACTORY(DesignPatternCategory.CREATIONAL,"简单工厂");
 
         private DesignPatternCategory category;
         private String desc;
@@ -35,7 +40,8 @@ public @interface DesignPattern {
     @Getter
     enum DesignPatternCategory {
 
-        CREATIONAL(1, "创建型");
+        CREATIONAL(1, "创建型"),
+        STRUCTAL(2,"结构型");
 
         private int code;
         private String desc;
