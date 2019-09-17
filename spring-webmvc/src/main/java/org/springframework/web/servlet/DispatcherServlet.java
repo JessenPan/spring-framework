@@ -467,14 +467,21 @@ public class DispatcherServlet extends FrameworkServlet {
 
     @Override
     protected void onRefresh(ApplicationContext context) {
+        // 此方法在applicationContext刷新之后被调用
         initStrategies(context);
     }
 
     /**
      * Initialize the strategy objects that this servlet uses.
      * <p>May be overridden in subclasses in order to initialize further strategy objects.
+     * <p>
+     *     初始化此servlet使用的各种策略对象
+     * </p>
+     * <p>
+     *     此类可以被子类重写来提供更多的策略对象
+     * </p>
      */
-    private void initStrategies(ApplicationContext context) {
+    protected void initStrategies(ApplicationContext context) {
         initMultipartResolver(context);
         initLocaleResolver(context);
         initThemeResolver(context);
