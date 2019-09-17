@@ -480,10 +480,7 @@ public abstract class FrameworkServlet extends HttpServletBean {
         try {
             this.webApplicationContext = initWebApplicationContext();
             initFrameworkServlet();
-        } catch (ServletException ex) {
-            this.logger.error("Context initialization failed", ex);
-            throw ex;
-        } catch (RuntimeException ex) {
+        } catch (ServletException | RuntimeException ex) {
             this.logger.error("Context initialization failed", ex);
             throw ex;
         }
@@ -962,10 +959,7 @@ public abstract class FrameworkServlet extends HttpServletBean {
 
         try {
             doService(request, response);
-        } catch (ServletException ex) {
-            failureCause = ex;
-            throw ex;
-        } catch (IOException ex) {
+        } catch (ServletException | IOException ex) {
             failureCause = ex;
             throw ex;
         } catch (Throwable ex) {

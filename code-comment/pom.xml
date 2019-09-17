@@ -11,6 +11,7 @@
     <modules>
         <module>comment-annotation</module>
         <module>comment-test</module>
+        <module>comment-doc</module>
     </modules>
 
     <properties>
