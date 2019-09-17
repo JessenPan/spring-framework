@@ -163,8 +163,7 @@ public abstract class HttpServletBean extends HttpServlet
             logger.error("Failed to set bean properties on servlet '" + getServletName() + "'", ex);
             throw ex;
         }
-
-        // Let subclasses do whatever initialization they like.
+        
         initServletBean();
     }
 
@@ -215,7 +214,12 @@ public abstract class HttpServletBean extends HttpServlet
      * Subclasses may override this to perform custom initialization.
      * All bean properties of this servlet will have been set before this
      * method is invoked.
-     * <p>This default implementation is empty.
+     * <p>
+     *     模板方法，子类可以覆写此方法进行自定义的初始化过程。
+     * </p>
+     * <p>
+     *     此servlet的bean属性在此方法被调用前已经全部初始化完成
+     * </p>
      *
      * @throws ServletException if subclass initialization fails
      */
