@@ -1025,18 +1025,6 @@ public abstract class FrameworkServlet extends HttpServletBean {
                 requestAttributes.requestCompleted();
             }
 
-            if (logger.isDebugEnabled()) {
-                if (failureCause != null) {
-                    this.logger.debug("Could not complete request", failureCause);
-                } else {
-                    if (asyncManager.isConcurrentHandlingStarted()) {
-                        logger.debug("Leaving response open for concurrent processing");
-                    } else {
-                        this.logger.debug("Successfully completed request");
-                    }
-                }
-            }
-
             publishRequestHandledEvent(request, startTime, failureCause);
         }
     }
@@ -1127,6 +1115,13 @@ public abstract class FrameworkServlet extends HttpServletBean {
      * {@code doGet} or {@code doPost} methods of HttpServlet.
      * <p>This class intercepts calls to ensure that exception handling and
      * event publication takes place.
+     * 
+     * <p>
+     *     子类必须实现此方法来进行请求的处理，包含GET、POST、PUT和DELETE
+     * </p>
+     * <p>
+     *     此方法的行为方式和HttpServlet的doGet和doPost基本是一直的
+     * </p>
      *
      * @param request  current HTTP request
      * @param response current HTTP response
