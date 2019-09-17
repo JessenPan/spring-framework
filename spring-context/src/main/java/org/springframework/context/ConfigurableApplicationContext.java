@@ -184,6 +184,10 @@ public interface ConfigurableApplicationContext extends ApplicationContext, Life
      * Determine whether this application context is active, that is,
      * whether it has been refreshed at least once and has not been closed yet.
      *
+     * <p>
+     *     判断此applicationContext是否已经激活。这里的激活指的是它至少被刷新(refresh)一次同时还没有被关闭(closed)。
+     * </p>
+     * 
      * @return whether the context is still active
      * @see #refresh()
      * @see #close()

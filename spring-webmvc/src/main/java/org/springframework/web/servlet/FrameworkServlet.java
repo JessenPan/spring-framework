@@ -161,6 +161,9 @@ public abstract class FrameworkServlet extends HttpServletBean {
             new ArrayList<ApplicationContextInitializer<ConfigurableApplicationContext>>();
     /**
      * ServletContext attribute to find the WebApplicationContext in
+     * <p>
+     *     用来在ServletContext里查找WebApplicationContext的属性key
+     * </p>
      */
     private String contextAttribute;
     /**
@@ -186,6 +189,9 @@ public abstract class FrameworkServlet extends HttpServletBean {
 
     /**
      * Should we publish the context as a ServletContext attribute?
+     * <p>
+     *     是否将webAppContext发布为ServletContext的一个属性值
+     * </p>
      */
     private boolean publishContext = true;
 
@@ -216,6 +222,9 @@ public abstract class FrameworkServlet extends HttpServletBean {
 
     /**
      * Flag used to detect whether onRefresh has already been called
+     * <p>
+     *     用来记录onRefresh方法是否被调用过的标志
+     * </p>
      */
     private boolean refreshEventReceived = false;
 
@@ -289,6 +298,9 @@ public abstract class FrameworkServlet extends HttpServletBean {
     /**
      * Return the name of the ServletContext attribute which should be used to retrieve the
      * {@link WebApplicationContext} that this servlet is supposed to use.
+     * <p>
+     *     返回查找WebApplicationContext的属性key
+     * </p>
      */
     public String getContextAttribute() {
         return this.contextAttribute;
@@ -473,6 +485,12 @@ public abstract class FrameworkServlet extends HttpServletBean {
     /**
      * Overridden method of {@link HttpServletBean}, invoked after any bean properties
      * have been set. Creates this servlet's WebApplicationContext.
+     * <p>
+     *     覆写父类的initServletBean。此方法被调用时，所有的bean属性都已经被设置过了。
+     * </p>
+     * <p>
+     *     主要的作用是设置servlet的WebApplicationContext
+     * </p>
      */
     @Override
     protected final void initServletBean() throws ServletException {
@@ -491,6 +509,12 @@ public abstract class FrameworkServlet extends HttpServletBean {
      * Initialize and publish the WebApplicationContext for this servlet.
      * <p>Delegates to {@link #createWebApplicationContext} for actual creation
      * of the context. Can be overridden in subclasses.
+     * <p>
+     *     初始化并发布此servlet对应的WebApplicationContext
+     * </p>
+     * <p>
+     *     将实际创建context的过程委托给{@link #createWebApplicationContext} 方法，子类可以覆写此方法
+     * </p>
      *
      * @return the WebApplicationContext instance
      * @see #FrameworkServlet(WebApplicationContext)
@@ -498,20 +522,19 @@ public abstract class FrameworkServlet extends HttpServletBean {
      * @see #setContextConfigLocation
      */
     protected WebApplicationContext initWebApplicationContext() {
+        //获取根上下文
         WebApplicationContext rootContext = WebApplicationContextUtils.getWebApplicationContext(getServletContext());
         WebApplicationContext wac = null;
 
         if (this.webApplicationContext != null) {
-            // A context instance was injected at construction time -> use it
+            // 如果webApplicationContext不为空，则使用它
             wac = this.webApplicationContext;
             if (wac instanceof ConfigurableWebApplicationContext) {
+                //转换为可配置的webAppContext
                 ConfigurableWebApplicationContext cwac = (ConfigurableWebApplicationContext) wac;
                 if (!cwac.isActive()) {
-                    // The context has not yet been refreshed -> provide services such as
-                    // setting the parent context, setting the application context id, etc
+                    // 如果cwac还没有被激活，则进行各种参数的设置。比如设置父context以及appContext的各种属性。
                     if (cwac.getParent() == null) {
-                        // The context instance was injected without an explicit parent -> set
-                        // the root application context (if any; may be null) as the parent
                         cwac.setParent(rootContext);
                     }
                     configureAndRefreshWebApplicationContext(cwac);
@@ -519,26 +542,24 @@ public abstract class FrameworkServlet extends HttpServletBean {
             }
         }
         if (wac == null) {
-            // No context instance was injected at construction time -> see if one
-            // has been registered in the servlet context. If one exists, it is assumed
-            // that the parent context (if any) has already been set and that the
-            // user has performed any initialization such as setting the context id
+            //当构造阶段没有任何上下文实例注入时，判断下在servletContext中是否有webAppContext被注册。
+            //如果存在，则认为此webAppContext的任何初始化动作，例如contextId等都已经被设置完成了
             wac = findWebApplicationContext();
         }
         if (wac == null) {
-            // No context instance is defined for this servlet -> create a local one
+            // 没有实例找到，则创建一个新的webAppContext上下文
             wac = createWebApplicationContext(rootContext);
         }
 
         if (!this.refreshEventReceived) {
-            // Either the context is not a ConfigurableApplicationContext with refresh
-            // support or the context injected at construction time had already been
-            // refreshed -> trigger initial onRefresh manually here.
+            // 当刷新事件还没有触发，
+            // 原因要么是上下文不是具有刷新支持的ConfigurableApplicationContext，要么在构建时注入的上下文已经刷新
+            // 当这种情况出现时，则手动触发刷新
             onRefresh(wac);
         }
 
         if (this.publishContext) {
-            // Publish the context as a servlet context attribute.
+            // 将webAppContext发布为servletContext的一个属性
             String attrName = getServletContextAttributeName();
             getServletContext().setAttribute(attrName, wac);
         }
@@ -553,6 +574,16 @@ public abstract class FrameworkServlet extends HttpServletBean {
      * {@code ServletContext} before this servlet gets initialized (or invoked).
      * <p>Subclasses may override this method to provide a different
      * {@code WebApplicationContext} retrieval strategy.
+     * 
+     * <p>
+     *     从ServletContext里按属性key查找对应的WebApplicationContext。
+     * </p>
+     * <p>
+     *     在此servlet被初始化之前，对应的WebAppContext必须被加载且存储到对应的ServletContext里
+     * </p>
+     * <p>
+     *     子类可以覆写方法来提供自定义实现
+     * </p>
      *
      * @return the WebApplicationContext for this servlet, or {@code null} if not found
      * @see #getContextAttribute()
