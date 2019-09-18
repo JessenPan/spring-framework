@@ -59,7 +59,7 @@ import java.security.Principal;
 import java.util.ArrayList;
 import java.util.concurrent.Callable;
 
-import static org.jessenpan.spring.comment.annotation.DesignPattern.DesignPatternEnum.TEMPLATE;
+import static org.jessenpan.spring.comment.annotation.DesignPatternEnum.TEMPLATE;
 
 /**
  * Base servlet for Spring's web framework. Provides integration with

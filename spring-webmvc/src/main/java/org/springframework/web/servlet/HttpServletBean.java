@@ -40,7 +40,7 @@ import java.util.Enumeration;
 import java.util.HashSet;
 import java.util.Set;
 
-import static org.jessenpan.spring.comment.annotation.DesignPattern.DesignPatternEnum.TEMPLATE;
+import static org.jessenpan.spring.comment.annotation.DesignPatternEnum.TEMPLATE;
 
 /**
  * Simple extension of {@link javax.servlet.http.HttpServlet} which treats
