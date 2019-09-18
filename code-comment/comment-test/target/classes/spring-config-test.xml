@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                    http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+
+    <bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+        <property name="locations">
+            <list>
+                <value>./props/test.properties</value>
+            </list>
+        </property>
+        <property name="fileEncoding" value="UTF-8"/>
+    </bean>
+
+    <bean id="test" class="org.jessenpan.spring.comment.test.jessenpan.TestObj">
+        <constructor-arg name="object">
+            <bean class="java.lang.Object"/>
+        </constructor-arg>
+        <property name="name" value="${test.key}"/>
+    </bean>
+
+    <bean id="testByFactory" class="org.jessenpan.spring.comment.test.jessenpan.TestObj"/>
+
+
+    <bean id="test3" class="org.jessenpan.spring.comment.test.jessenpan.TestObj2">
+        <property name="mapVal">
+            <map>
+                <entry key="et" value="te"/>
+                <entry key="te2" value="111"/>
+            </map>
+        </property>
+    </bean>
+</beans>
