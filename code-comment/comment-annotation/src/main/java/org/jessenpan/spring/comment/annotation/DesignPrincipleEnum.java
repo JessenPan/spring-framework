@@ -17,7 +17,7 @@ public enum DesignPrincipleEnum {
     ISP(4, "接口隔离原则"),
     DIP(5, "依赖注入原则"),
 
-    LKP(6, "最少知道原则");
+    LKP(6, "迪米特-最少知道原则");
 
     private int code;
     private String desc;

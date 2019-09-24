@@ -9,7 +9,8 @@ import lombok.Getter;
 public enum DesignPatternCategory {
 
     CREATIONAL(1, "创建型"),
-    STRUCTAL(2, "结构型");
+    STRUCTURAL(2, "结构型"),
+    BEHAVIORAL(3, "行为型");
 
     private int code;
     private String desc;

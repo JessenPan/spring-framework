@@ -16,7 +16,11 @@
 
 package org.springframework.context;
 
+import org.jessenpan.spring.comment.annotation.DesignPattern;
+
 import java.util.EventListener;
+
+import static org.jessenpan.spring.comment.annotation.DesignPatternEnum.OBSERVER;
 
 /**
  * Interface to be implemented by application event listeners.
@@ -28,15 +32,27 @@ import java.util.EventListener;
  * will be filtered accordingly, with the listener getting invoked for matching event
  * objects only.
  *
+ * <p>
+ * 具体的应用监听器实现此接口，基于标准的{@code java.util.EventListener}接口实现观察者模式
+ * </p>
+ * <p>
+ * 在spring3.0里，应用监听器可以订阅自己感兴趣的事件。当监听器注册到spring的应用上下文后，所有发生的事件将会根据注册情况进行过滤，
+ * 并调用对此事件感兴趣的监听器。
+ * </p>
+ *
  * @param <E> the specific ApplicationEvent subclass to listen to
  * @author Rod Johnson
  * @author Juergen Hoeller
  * @see org.springframework.context.event.ApplicationEventMulticaster
  */
+@DesignPattern(value = { OBSERVER })
 public interface ApplicationListener<E extends ApplicationEvent> extends EventListener {
 
     /**
      * Handle an application event.
+     * <p>
+     * 此方法处理应用的事件
+     * </p>
      *
      * @param event the event to respond to
      */
