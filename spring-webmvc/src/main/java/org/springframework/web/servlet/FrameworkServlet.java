@@ -685,8 +685,8 @@ public abstract class FrameworkServlet extends HttpServletBean {
 
         //后置处理webApplicationContext
         postProcessWebApplicationContext(wac);
-        //调用注册进系统的所有WebApplicationInitializer来对webApplicationContext进行处理
         applyInitializers(wac);
+        //调用注册进系统的所有WebApplicationInitializer来对webApplicationContext进行处理
         // 刷新WebAppContext
         wac.refresh();
     }

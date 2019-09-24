@@ -497,6 +497,12 @@ public class DispatcherServlet extends FrameworkServlet {
      * Initialize the MultipartResolver used by this class.
      * <p>If no bean is defined with the given name in the BeanFactory for this namespace,
      * no multipart handling is provided.
+     * <p>
+     *     初始化此类使用的<code>multipartResolver</code>
+     * </p>
+     * <p>
+     *     
+     * </p>
      */
     private void initMultipartResolver(ApplicationContext context) {
         try {
