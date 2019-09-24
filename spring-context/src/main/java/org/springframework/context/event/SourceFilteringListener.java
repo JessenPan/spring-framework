@@ -16,9 +16,12 @@
 
 package org.springframework.context.event;
 
+import org.jessenpan.spring.comment.annotation.DesignPattern;
 import org.springframework.context.ApplicationEvent;
 import org.springframework.context.ApplicationListener;
 import org.springframework.core.Ordered;
+
+import static org.jessenpan.spring.comment.annotation.DesignPatternEnum.DECORATOR;
 
 /**
  * {@link org.springframework.context.ApplicationListener} decorator that filters
@@ -27,16 +30,23 @@ import org.springframework.core.Ordered;
  * <p>
  * <p>Can also be used as base class, overriding the {@link #onApplicationEventInternal}
  * method instead of specifying a delegate listener.
+ * 
+ * <p>
+ *     此ApplicationListener筛选指定事件来源的事件，然后调用内部委托的事件处理方法
+ * </p>
+ * <p>
+ *     此类可以作为基类，覆写{@link #onApplicationEventInternal}方法来指定一个替代实现
+ * </p>
  *
  * @author Juergen Hoeller
  * @since 2.0.5
  */
+@DesignPattern(value = { DECORATOR })
 public class SourceFilteringListener implements SmartApplicationListener {
 
     private final Object source;
 
     private SmartApplicationListener delegate;
-
 
     /**
      * Create a SourceFilteringListener for the given event source.
@@ -48,8 +58,7 @@ public class SourceFilteringListener implements SmartApplicationListener {
      */
     public SourceFilteringListener(Object source, ApplicationListener delegate) {
         this.source = source;
-        this.delegate = (delegate instanceof SmartApplicationListener ?
-                (SmartApplicationListener) delegate : new GenericApplicationListenerAdapter(delegate));
+        this.delegate = (delegate instanceof SmartApplicationListener ? (SmartApplicationListener) delegate : new GenericApplicationListenerAdapter(delegate));
     }
 
     /**
@@ -63,7 +72,6 @@ public class SourceFilteringListener implements SmartApplicationListener {
     protected SourceFilteringListener(Object source) {
         this.source = source;
     }
-
 
     public void onApplicationEvent(ApplicationEvent event) {
         if (event.getSource() == this.source) {
@@ -83,7 +91,6 @@ public class SourceFilteringListener implements SmartApplicationListener {
         return (this.delegate != null ? this.delegate.getOrder() : Ordered.LOWEST_PRECEDENCE);
     }
 
-
     /**
      * Actually process the event, after having filtered according to the
      * desired event source already.
@@ -93,8 +100,7 @@ public class SourceFilteringListener implements SmartApplicationListener {
      */
     protected void onApplicationEventInternal(ApplicationEvent event) {
         if (this.delegate == null) {
-            throw new IllegalStateException(
-                    "Must specify a delegate object or override the onApplicationEventInternal method");
+            throw new IllegalStateException("Must specify a delegate object or override the onApplicationEventInternal method");
         }
         this.delegate.onApplicationEvent(event);
     }

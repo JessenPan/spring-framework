@@ -16,6 +16,7 @@
 
 package org.springframework.context.event;
 
+import org.jessenpan.spring.comment.annotation.DesignPattern;
 import org.springframework.aop.support.AopUtils;
 import org.springframework.context.ApplicationEvent;
 import org.springframework.context.ApplicationListener;
@@ -23,18 +24,24 @@ import org.springframework.core.GenericTypeResolver;
 import org.springframework.core.Ordered;
 import org.springframework.util.Assert;
 
+import static org.jessenpan.spring.comment.annotation.DesignPatternEnum.ADAPTER;
+
 /**
  * {@link SmartApplicationListener} adapter that determines supported event types
  * through introspecting the generically declared type of the target listener.
+ *
+ * <p>
+ * SmartApplicationListener的适配器，通过探测委托的事件监听器的接口参数类型来确定受支持的事件类型。
+ * </p>
  *
  * @author Juergen Hoeller
  * @see org.springframework.context.ApplicationListener#onApplicationEvent
  * @since 3.0
  */
+@DesignPattern(value = { ADAPTER })
 public class GenericApplicationListenerAdapter implements SmartApplicationListener {
 
     private final ApplicationListener delegate;
-
 
     /**
      * Create a new GenericApplicationListener for the given delegate.
@@ -46,12 +53,14 @@ public class GenericApplicationListenerAdapter implements SmartApplicationListen
         this.delegate = delegate;
     }
 
-
     @SuppressWarnings("unchecked")
     public void onApplicationEvent(ApplicationEvent event) {
         this.delegate.onApplicationEvent(event);
     }
 
+    /*
+     * 适配器的主要作用就是进行  两种不兼容的接口间的转换和适配 
+     */
     public boolean supportsEventType(Class<? extends ApplicationEvent> eventType) {
         Class<?> typeArg = GenericTypeResolver.resolveTypeArgument(this.delegate.getClass(), ApplicationListener.class);
         if (typeArg == null || typeArg.equals(ApplicationEvent.class)) {

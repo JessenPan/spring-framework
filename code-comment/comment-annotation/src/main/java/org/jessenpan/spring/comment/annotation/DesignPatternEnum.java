@@ -20,6 +20,7 @@ public enum DesignPatternEnum {
      * 结构型
      */
     DECORATOR(STRUCTURAL, "装饰器模式"),
+    ADAPTER(STRUCTURAL, "适配器模式"),  //确定下那个是适配者、那个是被适配者
     /**
      * 行为型
      */
