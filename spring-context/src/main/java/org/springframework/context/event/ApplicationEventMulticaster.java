@@ -16,8 +16,12 @@
 
 package org.springframework.context.event;
 
+import org.jessenpan.spring.comment.annotation.DesignPrinciple;
 import org.springframework.context.ApplicationEvent;
 import org.springframework.context.ApplicationListener;
+
+import static org.jessenpan.spring.comment.annotation.DesignPrincipleEnum.ISP;
+import static org.jessenpan.spring.comment.annotation.DesignPrincipleEnum.SRP;
 
 /**
  * Interface to be implemented by objects that can manage a number of
@@ -27,9 +31,19 @@ import org.springframework.context.ApplicationListener;
  * a Spring {@link org.springframework.context.ApplicationContext}, can use an
  * ApplicationEventMulticaster as a delegate for actually publishing events.
  *
+ * <p>
+ * 实现此接口的类能够管理一批 ApplicationListener，并向他们发布事件
+ * </p>
+ * <p>
+ * 一个ApplicationEventPublisher对象可以将此类作为内部实现，来进行真正的事件发布。
+ * 典型的ApplicationEventPublisher类的实现者是 ApplicationContext。
+ * </p>
+ *
  * @author Rod Johnson
  * @author Juergen Hoeller
  */
+//这个接口和ApplicationEventPublisher职责单一和接口隔离
+@DesignPrinciple(value = { SRP, ISP })
 public interface ApplicationEventMulticaster {
 
     /**
