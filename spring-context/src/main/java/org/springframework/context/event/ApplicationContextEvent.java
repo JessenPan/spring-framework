@@ -21,6 +21,9 @@ import org.springframework.context.ApplicationEvent;
 
 /**
  * Base class for events raised for an {@code ApplicationContext}.
+ * <p>
+ *     ApplicationContext触发的所有事件的基类
+ * </p>
  *
  * @author Juergen Hoeller
  * @since 2.5

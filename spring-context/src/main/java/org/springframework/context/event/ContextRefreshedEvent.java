@@ -20,6 +20,9 @@ import org.springframework.context.ApplicationContext;
 
 /**
  * Event raised when an {@code ApplicationContext} gets initialized or refreshed.
+ * <p>
+ *     当ApplicationContext在初始化或者刷新后触发的事件
+ * </p>
  *
  * @author Juergen Hoeller
  * @see ContextClosedEvent
