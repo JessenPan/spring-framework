@@ -20,6 +20,9 @@ import org.springframework.context.ApplicationContext;
 
 /**
  * Event raised when an {@code ApplicationContext} gets closed.
+ * <p>
+ *     当ApplicationContext关闭后触发的上下文
+ * </p>
  *
  * @author Juergen Hoeller
  * @see ContextRefreshedEvent

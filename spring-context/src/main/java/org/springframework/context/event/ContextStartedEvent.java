@@ -20,6 +20,10 @@ import org.springframework.context.ApplicationContext;
 
 /**
  * Event raised when an {@code ApplicationContext} gets started.
+ * 
+ * <p>
+ *     当ApplicationContext启动后触发的事件
+ * </p>
  *
  * @author Mark Fisher
  * @author Juergen Hoeller
