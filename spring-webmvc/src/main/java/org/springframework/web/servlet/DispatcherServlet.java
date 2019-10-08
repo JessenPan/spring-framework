@@ -16,6 +16,7 @@
 
 package org.springframework.web.servlet;
 
+import org.jessenpan.spring.comment.annotation.DesignPattern;
 import org.springframework.beans.factory.BeanFactoryUtils;
 import org.springframework.beans.factory.BeanInitializationException;
 import org.springframework.beans.factory.NoSuchBeanDefinitionException;
@@ -44,6 +45,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.*;
+
+import static org.jessenpan.spring.comment.annotation.DesignPatternEnum.TEMPLATE;
 
 /**
  * Central dispatcher for HTTP request handlers/controllers, e.g. for web UI controllers
@@ -274,7 +277,7 @@ public class DispatcherServlet extends FrameworkServlet {
     }
 
     /**
-     * Detect all HandlerMappings or just expect "handlerMapping" bean?
+     * 是检测beanFactory里的所有handlerMapping，还是只检测命名为  handlerMapping的spring实例
      */
     private boolean detectAllHandlerMappings = true;
 
@@ -314,12 +317,12 @@ public class DispatcherServlet extends FrameworkServlet {
     private ThemeResolver themeResolver;
 
     /**
-     * List of HandlerMappings used by this servlet
+     * 此servlet使用的所有HandlerMappings
      */
     private List<HandlerMapping> handlerMappings;
 
     /**
-     * List of HandlerAdapters used by this servlet
+     * 此servlet使用的handlerAdapter列表
      */
     private List<HandlerAdapter> handlerAdapters;
 
@@ -465,6 +468,10 @@ public class DispatcherServlet extends FrameworkServlet {
         this.cleanupAfterInclude = cleanupAfterInclude;
     }
 
+    //初始化各种策略接口开始
+    //DELIMITER
+    
+    @DesignPattern(value = TEMPLATE)
     @Override
     protected void onRefresh(ApplicationContext context) {
         // 此方法在applicationContext刷新之后被调用
@@ -472,8 +479,6 @@ public class DispatcherServlet extends FrameworkServlet {
     }
 
     /**
-     * Initialize the strategy objects that this servlet uses.
-     * <p>May be overridden in subclasses in order to initialize further strategy objects.
      * <p>
      *     初始化此servlet使用的各种策略对象
      * </p>
@@ -494,18 +499,13 @@ public class DispatcherServlet extends FrameworkServlet {
     }
 
     /**
-     * Initialize the MultipartResolver used by this class.
-     * <p>If no bean is defined with the given name in the BeanFactory for this namespace,
-     * no multipart handling is provided.
      * <p>
      *     初始化此类使用的<code>multipartResolver</code>
-     * </p>
-     * <p>
-     *     
      * </p>
      */
     private void initMultipartResolver(ApplicationContext context) {
         try {
+            // 可以在xml里或者通过注解将自定义的  multipartResolver注入到spring的app上下文中，同时名字需要是 multipartResolver
             this.multipartResolver = context.getBean(MULTIPART_RESOLVER_BEAN_NAME, MultipartResolver.class);
         } catch (NoSuchBeanDefinitionException ex) {
             // Default is no multipart resolver.
@@ -514,9 +514,12 @@ public class DispatcherServlet extends FrameworkServlet {
     }
 
     /**
-     * Initialize the LocaleResolver used by this class.
-     * <p>If no bean is defined with the given name in the BeanFactory for this namespace,
-     * we default to AcceptHeaderLocaleResolver.
+     * <p>
+     *     初始化此类使用的LocaleResolver
+     * </p>
+     * <p>
+     *     在此命名空间的beanFactory里如果没有指定名称的localeResolver，则使用默认的实现
+     * </p>
      */
     private void initLocaleResolver(ApplicationContext context) {
         try {
@@ -528,15 +531,18 @@ public class DispatcherServlet extends FrameworkServlet {
     }
 
     /**
-     * Initialize the ThemeResolver used by this class.
-     * <p>If no bean is defined with the given name in the BeanFactory for this namespace,
-     * we default to a FixedThemeResolver.
+     * <p>
+     *     初始化此类使用的themeResolver
+     * </p>
+     * <p>
+     *     此命名空间下的beanFactory如果没有指定名称的bean，则使用默认的配置
+     * </p>
      */
     private void initThemeResolver(ApplicationContext context) {
         try {
             this.themeResolver = context.getBean(THEME_RESOLVER_BEAN_NAME, ThemeResolver.class);
         } catch (NoSuchBeanDefinitionException ex) {
-            // We need to use the default.
+            // 没有手动指定，则使用默认的实现
             this.themeResolver = getDefaultStrategy(context, ThemeResolver.class);
         }
     }
@@ -550,16 +556,17 @@ public class DispatcherServlet extends FrameworkServlet {
         this.handlerMappings = null;
 
         if (this.detectAllHandlerMappings) {
-            // Find all HandlerMappings in the ApplicationContext, including ancestor contexts.
+            //是否检测所有的handlerMapping，包含祖先上下文里的实例
             Map<String, HandlerMapping> matchingBeans =
                     BeanFactoryUtils.beansOfTypeIncludingAncestors(context, HandlerMapping.class, true, false);
             if (!matchingBeans.isEmpty()) {
-                this.handlerMappings = new ArrayList<HandlerMapping>(matchingBeans.values());
-                // We keep HandlerMappings in sorted order.
+                this.handlerMappings = new ArrayList<>(matchingBeans.values());
+                //进行排序
                 OrderComparator.sort(this.handlerMappings);
             }
         } else {
             try {
+                //只获取指定命名的handlerMapping实例
                 HandlerMapping hm = context.getBean(HANDLER_MAPPING_BEAN_NAME, HandlerMapping.class);
                 this.handlerMappings = Collections.singletonList(hm);
             } catch (NoSuchBeanDefinitionException ex) {
@@ -567,17 +574,19 @@ public class DispatcherServlet extends FrameworkServlet {
             }
         }
 
-        // Ensure we have at least one HandlerMapping, by registering
-        // a default HandlerMapping if no other mappings are found.
+        //如果没有手动配置handlerMapping，则使用默认配置进行初始化
         if (this.handlerMappings == null) {
             this.handlerMappings = getDefaultStrategies(context, HandlerMapping.class);
         }
     }
 
     /**
-     * Initialize the HandlerAdapters used by this class.
-     * <p>If no HandlerAdapter beans are defined in the BeanFactory for this namespace,
-     * we default to SimpleControllerHandlerAdapter.
+     * <p>
+     *     初始化此类使用的所有handlerAdapters
+     * </p>
+     * <p>
+     *     如果此命名空间的beanFactory里没有指定handlerAdapter，则使用默认实现
+     * </p>
      */
     private void initHandlerAdapters(ApplicationContext context) {
         this.handlerAdapters = null;
@@ -699,6 +708,9 @@ public class DispatcherServlet extends FrameworkServlet {
         }
     }
 
+    
+    
+    
     /**
      * Return this servlet's ThemeSource, if any; else return {@code null}.
      * <p>Default is to return the WebApplicationContext as ThemeSource,
@@ -744,10 +756,13 @@ public class DispatcherServlet extends FrameworkServlet {
     }
 
     /**
-     * Create a List of default strategy objects for the given strategy interface.
-     * <p>The default implementation uses the "DispatcherServlet.properties" file (in the same
-     * package as the DispatcherServlet class) to determine the class names. It instantiates
-     * the strategy objects through the context's BeanFactory.
+     * 
+     * <p>
+     *     为指定的策略接口创建一批默认的实现
+     * </p>
+     * <p>
+     *     此方法默认是用DispatcherServlet.properties文件里的类名进行创建。在具体实例化时，使用appContext包含的beanFactory进行创建。
+     * </p>
      *
      * @param context           the current WebApplicationContext
      * @param strategyInterface the strategy interface
@@ -758,6 +773,7 @@ public class DispatcherServlet extends FrameworkServlet {
         String key = strategyInterface.getName();
         String value = DEFAULT_STRATEGIES.getProperty(key);
         if (value != null) {
+            //将逗号分隔的字符串分隔成数组
             String[] classNames = StringUtils.commaDelimitedListToStringArray(value);
             List<T> strategies = new ArrayList<T>(classNames.length);
             for (String className : classNames) {
@@ -775,6 +791,7 @@ public class DispatcherServlet extends FrameworkServlet {
             }
             return strategies;
         } else {
+            //为空则返回一个空的链表
             return new LinkedList<T>();
         }
     }
@@ -782,7 +799,13 @@ public class DispatcherServlet extends FrameworkServlet {
     /**
      * Create a default strategy.
      * <p>The default implementation uses {@link org.springframework.beans.factory.config.AutowireCapableBeanFactory#createBean}.
-     *
+     * <p>
+     *     创建一个默认的策略实现
+     * </p>
+     * <p>
+     *     此方法使用autowireCapableBeanFactory的createBean方法进行内部实现
+     * </p>
+     * 
      * @param context the current WebApplicationContext
      * @param clazz   the strategy implementation class to instantiate
      * @return the fully configured strategy instance
@@ -792,6 +815,9 @@ public class DispatcherServlet extends FrameworkServlet {
     private Object createDefaultStrategy(ApplicationContext context, Class<?> clazz) {
         return context.getAutowireCapableBeanFactory().createBean(clazz);
     }
+
+    // 初始化各种策略接口结束
+    //DELIMITER
 
     /**
      * 做一些数据初始化设置，主要是把需要一些springMvc相关的对象设置到httpRequest的attribute里，
@@ -840,12 +866,14 @@ public class DispatcherServlet extends FrameworkServlet {
     }
 
     /**
-     * Process the actual dispatching to the handler.
-     * <p>The handler will be obtained by applying the servlet's HandlerMappings in order.
-     * The HandlerAdapter will be obtained by querying the servlet's installed HandlerAdapters
-     * to find the first that supports the handler class.
-     * <p>All HTTP methods are handled by this method. It's up to HandlerAdapters or handlers
-     * themselves to decide which methods are acceptable.
+     * <p>
+     *     处理实际的请求,实际的处理器顺序的通过此servlet的handlerMapping获得。
+     * </p>
+     * <p>
+     *     实际的处理流程分为两个：
+     *     第一个流程：初始化变量-> 处理请求及渲染结果(细节见第二个流程) -> 处理异常和数据清理
+     *     第二个流程: 寻找请求对应的handlerChain->寻找对应的handlerAdapter->处理请求及获取结果或异常->渲染结果
+     * </p>
      *
      * @param request  current HTTP request
      * @param response current HTTP response

@@ -16,8 +16,12 @@
 
 package org.springframework.web.servlet;
 
+import org.jessenpan.spring.comment.annotation.DesignPattern;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import static org.jessenpan.spring.comment.annotation.DesignPatternEnum.ADAPTER;
 
 /**
  * MVC framework SPI interface, allowing parameterization of core MVC workflow.
@@ -45,6 +49,7 @@ import javax.servlet.http.HttpServletResponse;
  * @see org.springframework.web.servlet.mvc.SimpleControllerHandlerAdapter
  * @see org.springframework.web.servlet.handler.SimpleServletHandlerAdapter
  */
+@DesignPattern(value = { ADAPTER})
 public interface HandlerAdapter {
 
     /**

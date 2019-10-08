@@ -20,4 +20,12 @@ public enum DesignPatternCategory {
         this.desc = desc;
     }
 
+    @Override
+    public String toString() {
+        final StringBuilder sb = new StringBuilder("DesignPatternCategory{");
+        sb.append("code=").append(code);
+        sb.append(", desc='").append(desc).append('\'');
+        sb.append('}');
+        return sb.toString();
+    }
 }

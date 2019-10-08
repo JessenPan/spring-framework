@@ -16,6 +16,8 @@ public enum DesignPatternEnum {
      * 创建型
      */
     SIMPLE_FACTORY(CREATIONAL, "简单工厂"),
+    SINGLETON(CREATIONAL,"单例模式"),
+    BUILDER(CREATIONAL,"建造器模式"),
     /**
      * 结构型
      */
@@ -35,4 +37,12 @@ public enum DesignPatternEnum {
         this.desc = desc;
     }
 
+    @Override
+    public String toString() {
+        final StringBuilder sb = new StringBuilder("DesignPatternEnum{");
+        sb.append("category=").append(category);
+        sb.append(", desc='").append(desc).append('\'');
+        sb.append('}');
+        return sb.toString();
+    }
 }
